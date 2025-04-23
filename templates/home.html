@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Inicio</title>
+</head>
+
+<body>
+    <h1>Bienvenido a Flask Notes</h1>
+    <ul>
+        {% for note in notes %}
+        <li>
+            {{ note.title }}
+            <br>
+            {{ note.content }}
+            <a href="{{ url_for('edit_note', id=note.id) }}"> Editar</a>
+            <form action="{{ url_for('delete_note', id=note.id) }}" method="POST">
+                <button type="submit">Eliminar</button>
+            </form>
+        </li>
+        {% else %}
+        Aun no se han creado notas
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('create_note') }}">agregar una nueva nota</a>
+</body>
+
+</html>
