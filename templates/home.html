@@ -1,29 +1,38 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Página de Inicio</title>
-</head>
+{% block app_notas %}Listado de Notas{% endblock %}
 
-<body>
-    <h1>Bienvenido a Flask Notes</h1>
-    <ul>
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Mis Notas</h2>
+    <a href="{{ url_for('notes.create_note') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Crear Nota
+    </a>
+</div>
+
+{% if notes %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for note in notes %}
-        <li>
-            {{ note.title }}
-            <br>
-            {{ note.content }}
-            <a href="{{ url_for('edit_note', id=note.id) }}"> Editar</a>
-            <form action="{{ url_for('delete_note', id=note.id) }}" method="POST">
-                <button type="submit">Eliminar</button>
-            </form>
-        </li>
-        {% else %}
-        Aun no se han creado notas
+            <div class="bg-white shadow-md rounded-lg p-4">
+                <h3 class="text-xl font-bold mb-2">{{ note.title }}</h3>
+                <p class="text-gray-700 mb-4">{{ note.content }}</p>
+                <p class="text-sm text-gray-500">Creada: {{ note.created_at }}</p>
+                <div class="flex justify-end mt-4">
+                    <a href="{{ url_for('notes.edit_note', id=note.id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-3 rounded mr-2">
+                        Editar
+                    </a>
+                    <a href="{{ url_for('notes.delete_note', id=note.id) }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                        Eliminar
+                    </a>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-    <a href="{{ url_for('create_note') }}">agregar una nueva nota</a>
-</body>
+    </div>
+{% else %}
+    <div class="bg-gray-100 p-8 text-center rounded-lg">
+        <p class="text-xl text-gray-600">No hay notas disponibles. ¡Crea una nueva!</p>
+    </div>
+{% endif %}
+{% endblock %}
 
-</html>
+    
