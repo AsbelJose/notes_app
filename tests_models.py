@@ -1,5 +1,5 @@
 import unittest
-from app import create_app
+from main import create_app
 from config import TestConfig
 from models import db, Note
 
